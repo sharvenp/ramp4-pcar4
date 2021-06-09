@@ -27,7 +27,7 @@ import {
     ScaleSet,
     SpatialReference
 } from '@/geo/api';
-import { EsriBasemap, EsriLOD, EsriMapView } from '@/geo/esri';
+import { EsriBasemap, EsriGraphic, EsriLOD, EsriMapView } from '@/geo/esri';
 import { LayerStore } from '@/store/modules/layer';
 import { MapCaptionStore } from '@/store/modules/mapcaption';
 
@@ -497,6 +497,21 @@ export class MapAPI extends CommonMapAPI {
             label: `${distance}${unit}`,
             isImperialScale: currScale.isImperialScale
         });
+    }
+
+    async getFeature(esriMapMove: any): Promise<any> {
+        if (!this.esriView) {
+            this.noMapErr();
+            return;
+        }
+
+        let response = await this.esriView.hitTest(esriMapMove);
+        if (response.results.length) {
+            return {
+                graphicId: response.results[0].graphic.getObjectId() || -1,
+                layerId: response.results[0].graphic.layer.id
+            };
+        }
     }
 
     /**
