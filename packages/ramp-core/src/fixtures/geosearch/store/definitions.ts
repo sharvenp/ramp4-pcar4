@@ -1,3 +1,5 @@
+import { LatLong } from '@/geo/api';
+
 export interface GenericObjectType {
     [key: string]: string;
 }
@@ -36,11 +38,6 @@ export interface Provinces {
     fsaToProvinces(fsa: string): GenericObjectType;
 }
 
-export interface LatLon {
-    lat: number;
-    lon: number;
-}
-
 export interface RawNameResult {
     items: NameResponse[];
 }
@@ -51,7 +48,7 @@ export interface FSAResult {
     desc: string; // "Forward Sortation Area"
     province: string; // Ontario
     _provinces: GenericObjectType; // {ON: "Ontario"} or {ON: "Ontario", MB: "Manitoba"}
-    LatLon: LatLon;
+    LatLon: LatLong;
 }
 
 export interface NTSResult {
@@ -59,14 +56,14 @@ export interface NTSResult {
     location: string; // "NUMABIN BAY"
     code: string; // "NTS"
     desc: string; // "National Topographic System"
-    LatLon: LatLon;
+    LatLon: LatLong;
     bbox: number[];
 }
 
 export interface LatLongResult {
     latlong: string; // "54.54,-91.45"
     desc: string; // "Latitude/Longitude",
-    LatLon: LatLon;
+    LatLon: LatLong;
     bbox: number[];
 }
 
@@ -76,7 +73,7 @@ export interface NameResult {
     location: string;
     province: string; // "Ontario"
     type: string; // "Lake"
-    LatLon: LatLon;
+    LatLon: LatLong;
     bbox: number[];
 }
 

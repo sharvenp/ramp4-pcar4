@@ -24,8 +24,10 @@ import {
     RampMapConfig,
     ScreenPoint,
     Screenshot,
+    ScaleBarProperties,
     ScaleSet,
-    SpatialReference
+    SpatialReference,
+    LatLong
 } from '@/geo/api';
 import { EsriBasemap, EsriLOD, EsriMapView } from '@/geo/esri';
 import { LayerStore } from '@/store/modules/layer';
@@ -544,9 +546,9 @@ export class MapAPI extends CommonMapAPI {
      * Updates map-caption store to notify map-caption component observer
      */
     updateScale(): void {
-        const currScale: any = this.$iApi.$vApp.$store.get(
+        const isImperialScale: boolean = (this.$iApi.$vApp.$store.get(
             MapCaptionStore.scale
-        );
+        ) as ScaleBarProperties).isImperialScale;
 
         // the starting length of the scale line in pixels
         // reduce the length of the bar on extra small layouts
@@ -565,8 +567,8 @@ export class MapAPI extends CommonMapAPI {
             // get the distance in units, either miles or kilometers
             const units =
                 (mapResolution * factor) /
-                (currScale.isImperialScale ? metersInAMile : 1000);
-            unit = currScale.isImperialScale ? 'mi' : 'km';
+                (isImperialScale ? metersInAMile : 1000);
+            unit = isImperialScale ? 'mi' : 'km';
 
             // length of the distance number
             const len = Math.round(units).toString().length;
@@ -579,23 +581,101 @@ export class MapAPI extends CommonMapAPI {
 
             // calcualte length of the scale line in pixels based on the round distance
             pixels =
-                (distance *
-                    (currScale.isImperialScale ? metersInAMile : 1000)) /
+                (distance * (isImperialScale ? metersInAMile : 1000)) /
                 mapResolution;
         } else {
             // Round the meters up
             distance = Math.ceil(
-                currScale.isImperialScale ? meters * metersInAFoot : meters
+                isImperialScale ? meters * metersInAFoot : meters
             );
             pixels = meters / mapResolution;
-            unit = currScale.isImperialScale ? 'ft' : 'm';
+            unit = isImperialScale ? 'ft' : 'm';
         }
 
         this.$iApi.$vApp.$store.set(MapCaptionStore.setScale, {
             width: `${pixels}px`,
             label: `${distance}${unit}`,
-            isImperialScale: currScale.isImperialScale
+            isImperialScale: isImperialScale
         });
+    }
+
+    /**
+     * Will convert a screen co-ord to lat long and update our property
+     * after the coversion finishes (asynch)
+     *
+     * @private
+     * @param screenX pixel position in x-axis
+     * @param screenY pixel position in y-axis
+     */
+    updateLatLongCursorPoint(screenX: number, screenY: number): any {
+        // get map point from cursor location
+        const mapCursorPoint = this.$iApi.geo.map.screenPointToMapPoint(
+            screenX,
+            screenY
+        );
+
+        // project from map co-ords to lat long.
+        this.$iApi.geo.utils.proj
+            .projectGeometry(4326, mapCursorPoint)
+            .then((llPoint: any) => {
+                // update our private property
+                const castPoint: Point = llPoint;
+                this.$iApi.$vApp.$store.set(MapCaptionStore.setLatLongCoords, {
+                    lat: castPoint.y,
+                    lon: castPoint.x
+                });
+            });
+    }
+
+    /**
+     *  Formats a string using mouse lat-long coordinates
+     *
+     * @param {LatLong} latLongPoint the lat-long coordinates
+     * @returns { x: string; y: string } the formatted string using given lat-long coordinates
+     */
+    formatLatLongString(latLongPoint: LatLong): { x: string; y: string } {
+        if (!latLongPoint) {
+            return { x: '', y: '' };
+        }
+
+        const degreeSymbol = String.fromCharCode(176);
+
+        const dy =
+            Math.floor(Math.abs(latLongPoint.lat)) *
+            (latLongPoint.lat < 0 ? -1 : 1);
+        const my = Math.floor(Math.abs((latLongPoint.lat - dy) * 60));
+        const sy = Math.round(
+            (Math.abs(latLongPoint.lat) - Math.abs(dy) - my / 60) * 3600
+        );
+
+        const dx =
+            Math.floor(Math.abs(latLongPoint.lon)) *
+            (latLongPoint.lon < 0 ? -1 : 1);
+        const mx = Math.floor(Math.abs((latLongPoint.lon - dx) * 60));
+        const sx = Math.round(
+            (Math.abs(latLongPoint.lon) - Math.abs(dx) - mx / 60) * 3600
+        );
+
+        const newY = `${Math.abs(dy)}${degreeSymbol} ${padZero(my)}' ${padZero(
+            sy
+        )}"`;
+        const newX = `${Math.abs(dx)}${degreeSymbol} ${padZero(mx)}' ${padZero(
+            sx
+        )}"`;
+
+        return { x: newX, y: newY };
+
+        /**
+         * Pad value with leading 0 to make sure there is always 2 digits if number is below 10.
+         *
+         * @function padZero
+         * @private
+         * @param {Number} val value to pad with 0
+         * @return {String} string with always 2 characters
+         */
+        function padZero(val: number) {
+            return val >= 10 ? `${val}` : `0${val}`;
+        }
     }
 
     /**

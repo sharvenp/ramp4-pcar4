@@ -234,6 +234,11 @@ export interface ScreenPoint {
     screenY: number;
 }
 
+export interface LatLong {
+    lat: number;
+    lon: number;
+}
+
 export interface Screenshot {
     dataUrl: string;
     data: ImageData;
@@ -369,6 +374,13 @@ export interface Attribution {
         value?: string;
         link?: string;
     };
+}
+
+// Contains properties needed to display scale on the map-caption bar
+export interface ScaleBarProperties {
+    label: string;
+    width: string;
+    isImperialScale: boolean;
 }
 
 // ----------------------- CLIENT CONFIG INTERFACES -----------------------------------
