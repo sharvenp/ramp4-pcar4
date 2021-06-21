@@ -1,6 +1,7 @@
 import { G } from 'svg.js';
 import { ArcGisServerUrl } from '@/geo/api';
 import deepmerge from 'deepmerge';
+import { Point } from '../graphic/geometry/point';
 
 export class SharedUtilsAPI {
     /**

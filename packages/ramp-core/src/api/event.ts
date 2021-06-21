@@ -9,6 +9,7 @@ import { LegendAPI } from '@/fixtures/legend/api/legend';
 import { MapClick, MapMove, RampBasemapConfig } from '@/geo/api';
 import { RampConfig } from '@/types';
 import { debounce } from 'debounce';
+import { MapCaptionStore } from '@/store/modules/mapcaption';
 
 export enum GlobalEvents {
     /**
@@ -573,9 +574,12 @@ export class EventAPI extends APIScope {
                 this.$iApi.event.on(
                     GlobalEvents.MAP_MOUSEMOVE,
                     (mapMove: MapMove) => {
-                        this.$iApi.geo.map.updateLatLongCursorPoint(
-                            mapMove.screenX,
-                            mapMove.screenY
+                        this.$iApi.$vApp.$store.set(
+                            MapCaptionStore.setCursorPoint,
+                            this.$iApi.geo.map.screenPointToMapPoint(
+                                mapMove.screenX,
+                                mapMove.screenY
+                            )
                         );
                     },
                     handlerName

@@ -32,20 +32,12 @@
 
         <span
             class="flex-shrink-0 relative top-1 pr-14"
-            v-if="latLongCursor.lat !== 0 || latLongCursor.lon !== 0"
+            v-if="cursorPoint && (cursorPoint.y !== 0 || cursorPoint.x !== 0)"
         >
-            {{ getCursorPointString().y }}
-            {{
-                $t(
-                    `map.coordinates.${
-                        latLongCursor.lat > 0 ? 'north' : 'south'
-                    }`
-                )
-            }}
-            | {{ getCursorPointString().x }}
-            {{
-                $t(`map.coordinates.${0 > latLongCursor.lon ? 'west' : 'east'}`)
-            }}
+            {{ latLongString.y }}
+            {{ $t(`map.coordinates.${cursorPoint.y > 0 ? 'north' : 'south'}`) }}
+            | {{ latLongString.x }}
+            {{ $t(`map.coordinates.${0 > cursorPoint.x ? 'west' : 'east'}`) }}
         </span>
 
         <button
@@ -66,13 +58,7 @@
 <script lang="ts">
 import { Vue, Component, Watch, Prop, Inject } from 'vue-property-decorator';
 import { Get, Sync, Call } from 'vuex-pathify';
-import {
-    Attribution,
-    ScaleBarProperties,
-    MapMove,
-    Point,
-    LatLong
-} from '@/geo/api';
+import { Attribution, ScaleBarProperties, Point } from '@/geo/api';
 import { GlobalEvents } from '@/api';
 import { MapCaptionStore } from '@/store/modules/mapcaption';
 
@@ -80,11 +66,8 @@ import { MapCaptionStore } from '@/store/modules/mapcaption';
 export default class MapCaptionV extends Vue {
     @Get(MapCaptionStore.scale) scale!: ScaleBarProperties;
     @Get(MapCaptionStore.attribution) attribution!: Attribution;
-    @Get(MapCaptionStore.latLongCursor) latLongCursor!: LatLong;
-
-    getCursorPointString(): { x: string; y: string } {
-        return this.$iApi.geo.map.formatLatLongString(this.latLongCursor);
-    }
+    @Get(MapCaptionStore.cursorPoint) cursorPoint!: Point;
+    latLongString: { x: string; y: string } = { x: '', y: '' };
 
     mounted() {
         // When map is created update scale
@@ -110,6 +93,17 @@ export default class MapCaptionV extends Vue {
     onScaleClick() {
         this.$iApi.$vApp.$store.set(MapCaptionStore.toggleScale, {});
         this.$iApi.geo.map.updateScale();
+    }
+
+    @Watch('cursorPoint')
+    async getCursorPointString(): Promise<void> {
+        if (!this.cursorPoint) {
+            this.latLongString = { x: '', y: '' };
+        } else {
+            this.latLongString = await this.$iApi.geo.utils.proj.formatLatLongString(
+                this.cursorPoint
+            );
+        }
     }
 }
 </script>

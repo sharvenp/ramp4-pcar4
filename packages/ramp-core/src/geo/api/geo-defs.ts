@@ -234,11 +234,6 @@ export interface ScreenPoint {
     screenY: number;
 }
 
-export interface LatLong {
-    lat: number;
-    lon: number;
-}
-
 export interface Screenshot {
     dataUrl: string;
     data: ImageData;

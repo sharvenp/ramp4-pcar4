@@ -3,7 +3,7 @@ import { make } from 'vuex-pathify';
 
 import { MapCaptionState } from './mapcaption-state';
 import { RootState } from '@/store';
-import { Attribution, LatLong, ScaleBarProperties } from '@/geo/api';
+import { Attribution, Point, ScaleBarProperties } from '@/geo/api';
 
 type MapCaptionContext = ActionContext<MapCaptionState, RootState>;
 
@@ -13,8 +13,8 @@ const actions = {
     setAttribution: (context: MapCaptionContext, attribution: Attribution) => {
         context.commit('SET_ATTRIBUTION', attribution);
     },
-    setLatLongCoords: (context: MapCaptionContext, latLong: LatLong) => {
-        context.commit('SET_LATLONG', latLong);
+    setCursorPoint: (context: MapCaptionContext, cursorPoint: Point) => {
+        context.commit('SET_CURSOR_POINT', cursorPoint);
     },
     setScale: (context: MapCaptionContext, scale: ScaleBarProperties) => {
         context.commit('SET_SCALE', scale);
@@ -28,8 +28,8 @@ const mutations = {
     SET_ATTRIBUTION: (state: MapCaptionState, value: Attribution) => {
         state.attribution = value;
     },
-    SET_LATLONG: (state: MapCaptionState, value: LatLong) => {
-        state.latLongCursor = value;
+    SET_CURSOR_POINT: (state: MapCaptionState, value: Point) => {
+        state.cursorPoint = value;
     },
     SET_SCALE: (state: MapCaptionState, value: ScaleBarProperties) => {
         state.scale = value;
@@ -49,13 +49,13 @@ export enum MapCaptionStore {
      */
     setAttribution = 'mapcaption/setAttribution!',
     /**
-     * (State) latLongCursor: LatLong
+     * (State) cursorPoint: Point
      */
-    latLongCursor = 'mapcaption/latLongCursor',
+    cursorPoint = 'mapcaption/cursorPoint',
     /**
-     * (Action) setLatLongCoords: (latLong: LatLong)
+     * (Action) setLatLongCoords: (cursorPoint: Point)
      */
-    setLatLongCoords = 'mapcaption/setLatLongCoords!',
+    setCursorPoint = 'mapcaption/setLatLongCoords!',
     /**
      * (State) scale: any
      */
@@ -77,7 +77,7 @@ export function mapcaption() {
             logo: { disabled: true }
         },
         { label: '0km', width: '0px', isImperialScale: false },
-        { lat: 0, lon: 0 }
+        undefined
     );
 
     return {
