@@ -1,12 +1,10 @@
 import { Tools } from 'terraformer';
 import GeoJson from 'geojson';
-import { APIScope, InstanceAPI } from '@/api/internal';
 import {
     BaseGeometry,
     EpsgLookup,
     Extent,
     GeometryType,
-    Point,
     Polygon,
     SpatialReference,
     SrDef
@@ -25,15 +23,10 @@ let proj4 = require('proj4');
 proj4 = proj4.default ? proj4.default : proj4;
 */
 
-export class ProjectionAPI extends APIScope {
+export class ProjectionAPI {
     protected espgWorker: EpsgLookup;
 
-    constructor(
-        iApi: InstanceAPI,
-        epsgFunction: EpsgLookup | undefined = undefined
-    ) {
-        super(iApi);
-
+    constructor(epsgFunction: EpsgLookup | undefined = undefined) {
         if (epsgFunction) {
             this.espgWorker = epsgFunction; // override with client-defined function
         } else {
@@ -170,7 +163,7 @@ export class ProjectionAPI extends APIScope {
         let outSr: string = this.normalizeProj(outputSR);
 
         if (!inSr && geoJson.crs && geoJson.crs.type === 'name') {
-            inSr = this.$iApi.geo.utils.geom._parseGeoJsonCrs(geoJson.crs);
+            inSr = RAMP.GEO.geom._parseGeoJsonCrs(geoJson.crs);
         }
 
         if (!inSr) {
@@ -320,7 +313,7 @@ export class ProjectionAPI extends APIScope {
         await this.checkProjBomber([destProj, geometry.sr]);
 
         // convert to geojson
-        const preGJ = this.$iApi.geo.utils.geom.geomRampToGeoJson(geometry);
+        const preGJ = RAMP.GEO.geom.geomRampToGeoJson(geometry);
 
         // project geojson
         const postGJ = this.projectGeoJson(
@@ -330,7 +323,7 @@ export class ProjectionAPI extends APIScope {
         );
 
         // convert back to RAMP geometry
-        const projectedRampGeom = this.$iApi.geo.utils.geom.geomGeoJsonToRamp(
+        const projectedRampGeom = RAMP.GEO.geom.geomGeoJsonToRamp(
             postGJ,
             geometry.id
         );
@@ -428,55 +421,5 @@ export class ProjectionAPI extends APIScope {
             y1,
             iWarped.sr
         );
-    }
-
-    /**
-     * Formats a string using mouse map point coordinates
-     * Returns empty string if no map point is provided
-     *
-     * @param {Point | undefined} mapPoint the cursor map point
-     * @returns { x: string; y: string } the formatted string using given lat-long coordinates
-     */
-    async formatLatLongString(
-        mapPoint: Point | undefined
-    ): Promise<{ x: string; y: string }> {
-        if (!mapPoint) {
-            return { x: '', y: '' };
-        }
-
-        const latLongPoint: any = await this.projectGeometry(4326, mapPoint);
-        const lat = latLongPoint.y;
-        const lon = latLongPoint.x;
-
-        const degreeSymbol = String.fromCharCode(176);
-
-        const dy = Math.floor(Math.abs(lat)) * (lat < 0 ? -1 : 1);
-        const my = Math.floor(Math.abs((lat - dy) * 60));
-        const sy = Math.round((Math.abs(lat) - Math.abs(dy) - my / 60) * 3600);
-
-        const dx = Math.floor(Math.abs(lon)) * (lon < 0 ? -1 : 1);
-        const mx = Math.floor(Math.abs((lon - dx) * 60));
-        const sx = Math.round((Math.abs(lon) - Math.abs(dx) - mx / 60) * 3600);
-
-        const newY = `${Math.abs(dy)}${degreeSymbol} ${padZero(my)}' ${padZero(
-            sy
-        )}"`;
-        const newX = `${Math.abs(dx)}${degreeSymbol} ${padZero(mx)}' ${padZero(
-            sx
-        )}"`;
-
-        return { x: newX, y: newY };
-
-        /**
-         * Pad value with leading 0 to make sure there is always 2 digits if number is below 10.
-         *
-         * @function padZero
-         * @private
-         * @param {Number} val value to pad with 0
-         * @return {String} string with always 2 characters
-         */
-        function padZero(val: number) {
-            return val >= 10 ? `${val}` : `0${val}`;
-        }
     }
 }

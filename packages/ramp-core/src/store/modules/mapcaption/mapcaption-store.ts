@@ -53,9 +53,9 @@ export enum MapCaptionStore {
      */
     cursorPoint = 'mapcaption/cursorPoint',
     /**
-     * (Action) setLatLongCoords: (cursorPoint: Point)
+     * (Action) setCursorPoint: (cursorPoint: Point)
      */
-    setCursorPoint = 'mapcaption/setLatLongCoords!',
+    setCursorPoint = 'mapcaption/setCursorPoint!',
     /**
      * (State) scale: any
      */

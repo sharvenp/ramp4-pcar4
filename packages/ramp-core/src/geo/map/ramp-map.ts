@@ -19,15 +19,13 @@ import {
     IdentifyResult,
     IdentifyResultSet,
     MapClick,
-    MapMove,
     Point,
     RampMapConfig,
     ScreenPoint,
     Screenshot,
     ScaleBarProperties,
     ScaleSet,
-    SpatialReference,
-    LatLong
+    SpatialReference
 } from '@/geo/api';
 import { EsriBasemap, EsriLOD, EsriMapView } from '@/geo/esri';
 import { LayerStore } from '@/store/modules/layer';

@@ -97,13 +97,11 @@ export default class MapCaptionV extends Vue {
 
     @Watch('cursorPoint')
     async getCursorPointString(): Promise<void> {
-        if (!this.cursorPoint) {
-            this.latLongString = { x: '', y: '' };
-        } else {
-            this.latLongString = await this.$iApi.geo.utils.proj.formatLatLongString(
-                this.cursorPoint
-            );
-        }
+        this.latLongString = this.cursorPoint
+            ? await this.$iApi.geo.utils.shared.formatLatLongString(
+                  this.cursorPoint
+              )
+            : { x: '', y: '' };
     }
 }
 </script>
