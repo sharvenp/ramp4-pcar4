@@ -69,39 +69,38 @@ export class WmsFC extends CommonFC {
      * @returns {Promise}         resolves when symbology has been downloaded
      */
     // TODO this code has yet to be migrated to ESRI 4. Required for symbology support for wms
-    /*
     loadSymbology () {
-        const configLayerEntries =  this._parent.config.layerEntries;
-        const gApi = this._parent._apiRef;
-        const legendArray = gApi.layer.ogc
-            .getLegendUrls(this._parent._layer, configLayerEntries.map(le => {
-                return {
-                    id: le.id,
-                    styleToURL: le.styleToURL,
-                    currentStyle: le.currentStyle
-                }
-            }))
-            .map((imageUri, idx) => {
+        console.log("WMS LOAD SYMBOLOGY")
+        // const configLayerEntries =  this._parent.config.layerEntries;
+        // const gApi = this._parent._apiRef;
+        // const legendArray = gApi.layer.ogc
+        //     .getLegendUrls(this._parent._layer, configLayerEntries.map(le => {
+        //         return {
+        //             id: le.id,
+        //             styleToURL: le.styleToURL,
+        //             currentStyle: le.currentStyle
+        //         }
+        //     }))
+        //     .map((imageUri, idx) => {
 
-                const symbologyItem = {
-                    name: null,
-                    svgcode: null
-                };
+        //         const symbologyItem = {
+        //             name: null,
+        //             svgcode: null
+        //         };
 
-                // config specified name || server specified name || config id
-                const name = configLayerEntries[idx].name ||
-                    getWMSLayerTitle(this._parent._layer, configLayerEntries[idx].id) ||
-                    configLayerEntries[idx].id;
+        //         // config specified name || server specified name || config id
+        //         const name = configLayerEntries[idx].name ||
+        //             getWMSLayerTitle(this._parent._layer, configLayerEntries[idx].id) ||
+        //             configLayerEntries[idx].id;
 
-                gApi.symbology.generateWMSSymbology(name, imageUri).then(data => {
-                    symbologyItem.name = data.name;
-                    symbologyItem.svgcode = data.svgcode;
-                });
+        //         gApi.symbology.generateWMSSymbology(name, imageUri).then(data => {
+        //             symbologyItem.name = data.name;
+        //             symbologyItem.svgcode = data.svgcode;
+        //         });
 
-                return symbologyItem;
-            });
-        this.symbology = legendArray;
-        return Promise.resolve();
+        //         return symbologyItem;
+        //     });
+        // this.symbology = legendArray;
+        // return Promise.resolve();
     }
-    */
 }
