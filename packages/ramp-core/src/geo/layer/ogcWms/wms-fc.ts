@@ -69,8 +69,10 @@ export class WmsFC extends CommonFC {
      * @returns {Promise}         resolves when symbology has been downloaded
      */
     // TODO this code has yet to be migrated to ESRI 4. Required for symbology support for wms
-    loadSymbology () {
-        console.log("WMS LOAD SYMBOLOGY")
+    loadSymbology() {
+        console.log('WMS LOAD SYMBOLOGY');
+        console.log(this.parentLayer.config);
+
         // const configLayerEntries =  this._parent.config.layerEntries;
         // const gApi = this._parent._apiRef;
         // const legendArray = gApi.layer.ogc

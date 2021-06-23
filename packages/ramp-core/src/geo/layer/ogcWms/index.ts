@@ -139,7 +139,7 @@ export default class WmsLayer extends CommonLayer {
 
         // TODO implement symbology load
         // loadPromises.push(wmsFC.loadSymbology());
-        wmsFC.loadSymbology()
+        wmsFC.loadSymbology();
         // TODO check out whats going on with layer extent. is it set and donethanks?
 
         return loadPromises;
@@ -430,6 +430,7 @@ export default class WmsLayer extends CommonLayer {
             urlMap: Map<any, any>
         ) => {
             sublayers.forEach(sl => {
+                console.log('sl', sl);
                 if (sl.name) {
                     urlMap.set(sl.name, sl.legendUrl);
                 }
