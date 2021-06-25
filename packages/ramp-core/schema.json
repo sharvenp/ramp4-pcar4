@@ -5,7 +5,7 @@
     "version": 4.0,
     "unevaluatedProperties": false,
 
-    "$defs": {
+    "definitions": {
         "help": {
             "type": "object",
             "description": "Specifies details for the Help section.",
@@ -51,13 +51,13 @@
                     "description": "Specifies the map of the overviewmap fixture",
                     "properties": {
                         "lods": {
-                            "$ref": "#/defs/lodSetNode"
+                            "$ref": "#/definitions/lodSetNode"
                         },
                         "basemap": {
-                            "$ref": "#/defs/basemapNode"
+                            "$ref": "#/definitions/basemapNode"
                         },
                         "spatialReference": {
-                            "$ref": "#/$defs/spatialReferenceNode"
+                            "$ref": "#/definitions/spatialReferenceNode"
                         }
                     }
                 },
@@ -213,7 +213,7 @@
                     "description": "Specifies whether layers in legend panel are reorderable."
                 },
                 "root": {
-                    "$ref": "#/$defs/entryGroup"
+                    "$ref": "#/definitions/entryGroup"
                 }
             },
             "required": ["root"],
@@ -239,7 +239,7 @@
                     "description": "Specifies if legend group is expanded by default."
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendGroupControls",
+                    "$ref": "#/definitions/legendGroupControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -251,7 +251,7 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendGroupControls",
+                    "$ref": "#/definitions/legendGroupControls",
                     "default": []
                 },
                 "children": {
@@ -259,16 +259,16 @@
                     "items": {
                         "oneOf": [
                             {
-                                "$ref": "#/$defs/entry"
+                                "$ref": "#/definitions/entry"
                             },
                             {
-                                "$ref": "#/$defs/entryGroup"
+                                "$ref": "#/definitions/entryGroup"
                             },
                             {
-                                "$ref": "#/$defs/infoSection"
+                                "$ref": "#/definitions/infoSection"
                             },
                             {
-                                "$ref": "#/$defs/visibilitySet"
+                                "$ref": "#/definitions/visibilitySet"
                             }
                         ]
                     },
@@ -359,7 +359,7 @@
                     "description": "Optional description displayed above the symbology stack on mouse hover."
                 },
                 "symbologyStack": {
-                    "$ref": "#/$defs/symbologyStack"
+                    "$ref": "#/definitions/symbologyStack"
                 },
                 "symbologyRenderStyle": {
                     "type": "string",
@@ -436,10 +436,10 @@
                     "items": {
                         "oneOf": [
                             {
-                                "$ref": "#/$defs/entryGroup"
+                                "$ref": "#/definitions/entryGroup"
                             },
                             {
-                                "$ref": "#/$defs/entry"
+                                "$ref": "#/definitions/entry"
                             }
                         ]
                     },
@@ -487,22 +487,22 @@
             "items": {
                 "oneOf": [
                     {
-                        "$ref": "#/$defs/basicLayerNode"
+                        "$ref": "#/definitions/basicLayerNode"
                     },
                     {
-                        "$ref": "#/$defs/mapImageLayerNode"
+                        "$ref": "#/definitions/mapImageLayerNode"
                     },
                     {
-                        "$ref": "#/$defs/featureLayerNode"
+                        "$ref": "#/definitions/featureLayerNode"
                     },
                     {
-                        "$ref": "#/$defs/fileLayerNode"
+                        "$ref": "#/definitions/fileLayerNode"
                     },
                     {
-                        "$ref": "#/$defs/wfsLayerNode"
+                        "$ref": "#/definitions/wfsLayerNode"
                     },
                     {
-                        "$ref": "#/$defs/wmsLayerNode"
+                        "$ref": "#/definitions/wmsLayerNode"
                     }
                 ]
             },
@@ -552,10 +552,10 @@
                     "description": "Service type shorthand for basic layers."
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -570,11 +570,11 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": []
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 }
             },
             "required": ["id", "layerType", "url"],
@@ -638,15 +638,15 @@
                     "type": "array",
                     "description": "Layer entries rendered as part of the map image layer group.",
                     "items": {
-                        "$ref": "#/$defs/mapImageLayerEntryNode"
+                        "$ref": "#/definitions/mapImageLayerEntryNode"
                     },
                     "minItems": 1
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -661,11 +661,11 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": []
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 },
                 "imageFormat": {
                     "type": "string",
@@ -706,13 +706,13 @@
                     "description": "The display field of the layer. If it is not present the viewer will make an attempt to scrape this information."
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls"
+                    "$ref": "#/definitions/legendEntryControls"
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 },
                 "stateOnly": {
                     "type": "boolean",
@@ -720,13 +720,13 @@
                     "description": "A flag indicating this entry is only for state tracking (i.e. it should not be displayed on the UI and all of the controls will be ignored, but the layer itself will be displayed on the map with the given state settings)."
                 },
                 "table": {
-                    "$ref": "#/$defs/tableNode"
+                    "$ref": "#/definitions/tableNode"
                 },
                 "fieldMetadata": {
                     "type": "array",
                     "description": "Specifies options for the fields of a layer.",
                     "items": {
-                        "$ref": "#/$defs/fieldMetadataEntry"
+                        "$ref": "#/definitions/fieldMetadataEntry"
                     }
                 }
             },
@@ -792,10 +792,10 @@
                     "description": "Allows individual symbols to have visibility toggled on/off."
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -810,14 +810,14 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": []
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 },
                 "table": {
-                    "$ref": "#/$defs/tableNode"
+                    "$ref": "#/definitions/tableNode"
                 },
                 "customRenderer": {
                     "type": "object",
@@ -828,7 +828,7 @@
                     "type": "array",
                     "description": "Specifies options for the fields of a layer.",
                     "items": {
-                        "$ref": "#/$defs/fieldMetadataEntry"
+                        "$ref": "#/definitions/fieldMetadataEntry"
                     }
                 }
             },
@@ -888,10 +888,10 @@
                     "description": "The longitude field of the layer (only for CSVs)."
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -906,14 +906,14 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": []
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 },
                 "table": {
-                    "$ref": "#/$defs/tableNode"
+                    "$ref": "#/definitions/tableNode"
                 },
                 "customRenderer": {
                     "type": "object",
@@ -924,7 +924,7 @@
                     "type": "array",
                     "description": "Specifies options for the fields of a layer.",
                     "items": {
-                        "$ref": "#/$defs/fieldMetadataEntry"
+                        "$ref": "#/definitions/fieldMetadataEntry"
                     }
                 }
             },
@@ -970,10 +970,10 @@
                     "description": "Service type shorthand for WFS layers."
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -988,14 +988,14 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": []
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 },
                 "table": {
-                    "$ref": "#/$defs/tableNode"
+                    "$ref": "#/definitions/tableNode"
                 },
                 "xyInAttribs": {
                     "type": "boolean",
@@ -1011,7 +1011,7 @@
                     "type": "array",
                     "description": "Specifies options for the fields of a layer.",
                     "items": {
-                        "$ref": "#/$defs/fieldMetadataEntry"
+                        "$ref": "#/definitions/fieldMetadataEntry"
                     }
                 }
             },
@@ -1065,7 +1065,7 @@
                     "type": "array",
                     "description": "Layer entries rendered as part of the WMS legend block.",
                     "items": {
-                        "$ref": "#/$defs/wmsLayerEntryNode"
+                        "$ref": "#/definitions/wmsLayerEntryNode"
                     },
                     "minItems": 1
                 },
@@ -1097,10 +1097,10 @@
                     "description": "Specifies if GetLegendGraphic should be enabled for this WMS and indicates the format that should be requested."
                 },
                 "extent": {
-                    "$ref": "#/$defs/extentWithReferenceNode"
+                    "$ref": "#/definitions/extentWithReferenceNode"
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": [
                         "opacity",
                         "visibility",
@@ -1115,11 +1115,11 @@
                     ]
                 },
                 "disabledControls": {
-                    "$ref": "#/$defs/legendEntryControls",
+                    "$ref": "#/definitions/legendEntryControls",
                     "default": []
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 }
             },
             "required": ["id", "layerType", "layerEntries", "url"],
@@ -1152,10 +1152,10 @@
                     "description": "Current style for the layer entry in the WMS."
                 },
                 "controls": {
-                    "$ref": "#/$defs/legendEntryControls"
+                    "$ref": "#/definitions/legendEntryControls"
                 },
                 "state": {
-                    "$ref": "#/$defs/initialLayerSettings"
+                    "$ref": "#/definitions/initialLayerSettings"
                 }
             },
             "required": ["id"],
@@ -1242,7 +1242,7 @@
                     "type": "array",
                     "description": "An array to specify how the columns (properties) of the table are defined. If a column is not present in the array, it is treated as disabled.",
                     "items": {
-                        "$ref": "#/$defs/columnNode"
+                        "$ref": "#/definitions/columnNode"
                     }
                 },
                 "search": {
@@ -1315,7 +1315,7 @@
                     "description": "Specifies if column can be filtered."
                 },
                 "filter": {
-                    "$ref": "#/$defs/filterNode"
+                    "$ref": "#/definitions/filterNode"
                 }
             },
             "required": ["data"],
@@ -1434,7 +1434,7 @@
                     "minItems": 1
                 },
                 "attribution": {
-                    "$ref": "#/$defs/attributionNode"
+                    "$ref": "#/definitions/attributionNode"
                 }
             },
             "required": [
@@ -1504,18 +1504,18 @@
                     "description": "Identification for extent set that is mainly referenced by a tile schema."
                 },
                 "spatialReference": {
-                    "$ref": "#/$defs/spatialReferenceNode"
+                    "$ref": "#/definitions/spatialReferenceNode"
                 },
                 "default": {
-                    "$ref": "#/$defs/extentNode",
+                    "$ref": "#/definitions/extentNode",
                     "description": "The default (starting) extent."
                 },
                 "full": {
-                    "$ref": "#/$defs/extentNode",
+                    "$ref": "#/definitions/extentNode",
                     "description": "The full extent; default will be used if not supplied."
                 },
                 "maximum": {
-                    "$ref": "#/$defs/extentNode",
+                    "$ref": "#/definitions/extentNode",
                     "description": "The maximum extent; full or default extents will be used if not supplied."
                 }
             },
@@ -1559,7 +1559,7 @@
                     "type": "number"
                 },
                 "spatialReference": {
-                    "$ref": "#/$defs/spatialReferenceNode"
+                    "$ref": "#/definitions/spatialReferenceNode"
                 }
             },
             "required": ["xmin", "ymin", "xmax", "ymax"],
@@ -1660,7 +1660,7 @@
             "description": "Optional configuration for required map fixtures. TODO: fixtures may not exist so cannot enforce fixtures in config file",
             "properties": {
                 "legend": {
-                    "$ref": "#/$defs/legend",
+                    "$ref": "#/definitions/legend",
                     "default": {
                         "isOpen": false,
                         "reorderable": true,
@@ -1669,14 +1669,14 @@
                     "description": "Provides configuration to legend. If not supplied, a blank legend is displayed."
                 },
                 "appbar": {
-                    "$ref": "#/$defs/appbar",
+                    "$ref": "#/definitions/appbar",
                     "default": {
                         "items": ["legend", "geosearch", "basemap"]
                     },
                     "description": "Provides configuration to the appbar. If not supplied, default appbar controls are displayed."
                 },
                 "mapnav": {
-                    "$ref": "#/$defs/navbar",
+                    "$ref": "#/definitions/navbar",
                     "default": {
                         "zoom": "buttons",
                         "items": ["fullscreen", "home", "help", "basemap"]
@@ -1684,7 +1684,7 @@
                     "description": "Provides configuration to the appbar. If not supplied, default appbar controls are displayed."
                 },
                 "geosearch": {
-                    "$ref": "#/$defs/geosearch",
+                    "$ref": "#/definitions/geosearch",
                     "default": {
                         "enabled": true,
                         "serviceUrls": {
@@ -1697,14 +1697,14 @@
                     "description": "Provides configuration to geosearch. If not supplied, default geosearch services are used."
                 },
                 "identify": {
-                    "$ref": "#/$defs/details",
+                    "$ref": "#/definitions/details",
                     "default": {
                         "templates": []
                     },
                     "description": "Provides configuration to identify results and details panel. Default to no user custom templates."
                 },
                 "help": {
-                    "$ref": "#/$defs/help",
+                    "$ref": "#/definitions/help",
                     "default": {
                         "folderName": "default",
                         "panelWidth": 350
@@ -1712,7 +1712,7 @@
                     "description": "Specifies details for the Help section"
                 },
                 "northarrow": {
-                    "$ref": "#/$defs/northarrow",
+                    "$ref": "#/definitions/northarrow",
                     "default": {
                         "arrowIcon": "",
                         "poleIcon": ""
@@ -1720,14 +1720,14 @@
                     "description": "Provides configuration to the north arrow and pole marker"
                 },
                 "overviewmap": {
-                    "$ref": "#/$defs/overviewmap",
+                    "$ref": "#/definitions/overviewmap",
                     "description": "Provides the configuration to the overviewmap fixture"
                 }
             },
             "unevaluatedProperties": false
         },
         "layers": {
-            "$ref": "#/$defs/layerList",
+            "$ref": "#/definitions/layerList",
             "default": [],
             "description": "Layer list in the order which they should be added to the map. Defaults to no layers."
         },
@@ -1739,7 +1739,7 @@
                     "type": "array",
                     "description": "Combinations of LOD and extent sets for the map.",
                     "items": {
-                        "$ref": "#/$defs/tileSchemaNode"
+                        "$ref": "#/definitions/tileSchemaNode"
                     },
                     "minItems": 1
                 },
@@ -1747,14 +1747,14 @@
                     "type": "array",
                     "description": "The default, full and maximum extents of the map.",
                     "items": {
-                        "$ref": "#/$defs/extentSetNode"
+                        "$ref": "#/definitions/extentSetNode"
                     }
                 },
                 "lodSets": {
                     "type": "array",
                     "description": "The levels of detail (zoom scales) available for the map.",
                     "items": {
-                        "$ref": "#/$defs/lodSetNode"
+                        "$ref": "#/definitions/lodSetNode"
                     }
                 },
                 "initialBasemapId": {
@@ -1765,7 +1765,7 @@
                     "type": "array",
                     "description": "A list of basemaps to be made available via the basemap selector.",
                     "items": {
-                        "$ref": "#/$defs/basemapNode"
+                        "$ref": "#/definitions/basemapNode"
                     },
                     "minItems": 1
                 }
