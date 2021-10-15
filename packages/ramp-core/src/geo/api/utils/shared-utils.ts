@@ -1,5 +1,6 @@
 import { ArcGisServerUrl } from '@/geo/api';
-import deepmerge from 'deepmerge';
+import deepmerge, { all } from 'deepmerge';
+import { allUids } from './alluids';
 
 export class SharedUtilsAPI {
     /**
@@ -9,26 +10,31 @@ export class SharedUtilsAPI {
      * @method  generateUUID
      * @returns {String} a uuid
      */
-    generateUUID(): string {
-        let d = Date.now();
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-            /*
-            // TODO: Come up with cheaper solution that doesn't use the crypto API and satifies CodeQL
-            const r =
-            (d +
-                window.crypto.getRandomValues(new Uint32Array(1))[0] *
-                Math.pow(2, -32) *
-                16) %
-                16 |
-                0; */
 
-            // do math!
-            /*jslint bitwise: true */
-            const r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
-            /*jslint bitwise: false */
-        });
+    private uidIdx: number = 0;
+
+    generateUUID(): string {
+        // let d = Date.now();
+        // return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        //     /*
+        //     // TODO: Come up with cheaper solution that doesn't use the crypto API and satifies CodeQL
+        //     const r =
+        //     (d +
+        //         window.crypto.getRandomValues(new Uint32Array(1))[0] *
+        //         Math.pow(2, -32) *
+        //         16) %
+        //         16 |
+        //         0; */
+        //     // do math!
+        //     /*jslint bitwise: true */
+        //     const r = (d + Math.random() * 16) % 16 | 0;
+        //     d = Math.floor(d / 16);
+        //     return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
+        //     /*jslint bitwise: false */
+        // });
+        const uid = allUids[this.uidIdx];
+        this.uidIdx = (this.uidIdx + 1) % allUids.length;
+        return uid;
     }
 
     // TODO see who is using this. Should it be somewhere more specific?
