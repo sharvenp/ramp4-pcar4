@@ -202,10 +202,21 @@ export class MapAPI extends CommonMapAPI {
         this._viewPromise.resolveMe();
 
         // emit basemap changed event
-        this.$iApi.event.emit(
-            GlobalEvents.MAP_BASEMAPCHANGE,
-            config.initialBasemapId
-        );
+        this.$iApi.event.emit(GlobalEvents.MAP_BASEMAPCHANGE, {
+            basemapId: config.initialBasemapId,
+            schemaChanged: false
+        });
+    }
+
+    public refreshMap() {
+        // destroy map
+
+
+        // recreate map
+    }
+
+    private destroyMap() {
+
     }
 
     /**

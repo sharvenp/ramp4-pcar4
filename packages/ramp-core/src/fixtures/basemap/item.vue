@@ -121,8 +121,8 @@ export default defineComponent({
                 return;
             }
 
-            this.$iApi.geo.map.setBasemap(basemap.id);
             this.$iApi.$vApp.$store.set(BasemapStore.setBasemap, basemap);
+            this.$iApi.geo.map.setBasemap(basemap.id);
         }
     }
 });
