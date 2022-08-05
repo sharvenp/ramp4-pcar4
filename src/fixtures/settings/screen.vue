@@ -121,16 +121,16 @@ import { defineComponent, type PropType } from 'vue';
 import type { PanelInstance } from '@/api';
 import { GlobalEvents, LayerInstance } from '@/api/internal';
 import { LayerControls } from '@/geo/api';
-import type { LegendEntry } from '../legend/store/legend-defs';
 import type { SettingsAPI } from './api/settings';
 import SettingsComponentV from './component.vue';
+import type { LegendAPI } from '../legend/api/legend';
+import type { LegendEntry } from '../legend/store/legend-defs';
 
 export default defineComponent({
     name: 'SettingsScreenV',
     props: {
         panel: { type: Object as PropType<PanelInstance>, required: true },
-        layer: { type: Object as PropType<LayerInstance>, required: true },
-        legendItem: { type: Object as PropType<LegendEntry>, required: true }
+        layer: { type: Object as PropType<LayerInstance>, required: true }
     },
     components: {
         'settings-component': SettingsComponentV
@@ -252,16 +252,29 @@ export default defineComponent({
          * Update the layer visibility.
          */
         updateVisibility(val: boolean) {
-            // force update the visibility
-            this.legendItem.toggleVisibility(val, true, true);
+            this.layer.visibility = val;
             this.visibilityModel = val;
+
+            // Need to manually call toggleVisibility on the legend item
+            // so that the visibility of the parent items update to ensure
+            // the visibility rules are being followed
+            let legendApi = this.$iApi.fixture.get<LegendAPI>('legend');
+            if (legendApi) {
+                // get layer item if it is added and update it
+                let item: LegendEntry = legendApi.getLayerItem(
+                    this.layer
+                ) as LegendEntry;
+                if (item) {
+                    item.toggleVisibility(val, true, true); // force update
+                }
+            }
         },
 
         /**
          * Update the layer opacity.
          */
         updateOpacity(val: number) {
-            this.legendItem.setOpacity(val / 100);
+            this.layer.opacity = val / 100;
             this.opacityModel = val;
         },
 
@@ -269,7 +282,7 @@ export default defineComponent({
          * Update the layer's toggle identify.
          */
         updateIdentify(val: boolean) {
-            this.legendItem.toggleIdentify(val);
+            this.layer.identify = val;
             this.identifyModel = val;
         },
 

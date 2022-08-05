@@ -369,8 +369,11 @@ export class LegendEntry extends LegendItem {
         forceUpdate: boolean = false
     ): void {
         if (forceUpdate || this.controlAvailable(LayerControls.Visibility)) {
-            // do nothing if visibility of entry is already equal to the argument value
-            if (this.visibility === visibility || !this._layer) {
+            // do nothing if visibility of entry is already equal to the argument value (unless force update is specified)
+            if (
+                (!forceUpdate && this.visibility === visibility) ||
+                !this._layer
+            ) {
                 return;
             }
 
@@ -394,27 +397,6 @@ export class LegendEntry extends LegendItem {
             if (this._parent instanceof LegendGroup && updateParent) {
                 this._parent.checkVisibility(this);
             }
-        }
-    }
-
-    /**
-     * Set the layer's opacity
-     * Value must be within [0, 1]
-     *
-     * @param opacity the new layer opacity
-     */
-    setOpacity(opacity: number): void {
-        if (this._layer) {
-            this._layer.opacity = opacity;
-        }
-    }
-
-    /**
-     * Toggle the layer's identify
-     */
-    toggleIdentify(identify: boolean): void {
-        if (this._layer) {
-            this._layer.identify = identify;
         }
     }
 

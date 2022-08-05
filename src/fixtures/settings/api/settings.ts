@@ -1,6 +1,4 @@
 import { FixtureInstance, LayerInstance } from '@/api';
-import type { LegendAPI } from '@/fixtures/legend/api/legend';
-import { legend } from '@/fixtures/legend/store';
 
 export class SettingsAPI extends FixtureInstance {
     /**
@@ -9,19 +7,10 @@ export class SettingsAPI extends FixtureInstance {
      */
     toggleSettings(layer: LayerInstance): void {
         const panel = this.$iApi.panel.get('settings');
-        const legendApi = this.$iApi.fixture.get<LegendAPI>('legend');
-        if (!legendApi) {
-            console.error(
-                'Layer settings not access legend API. Please ensure the legend fixture is added.'
-            );
-            return;
-        }
-
-        const legendItem = legendApi.getLayerItem(layer.id);
         if (!panel.isOpen) {
             this.$iApi.panel.open({
                 id: 'settings',
-                props: { layer: layer, legendItem: legendItem }
+                props: { layer: layer }
             });
         } else {
             const currentUid = (panel.route.props! as any).layer.uid;
@@ -29,8 +18,7 @@ export class SettingsAPI extends FixtureInstance {
                 panel.show({
                     screen: 'settings-screen-content',
                     props: {
-                        layer: layer,
-                        legendItem: legendItem
+                        layer: layer
                     }
                 });
             } else {
