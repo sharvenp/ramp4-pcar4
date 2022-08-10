@@ -10,7 +10,7 @@
                         : `legend.visibility.show${label}`
                 )
             "
-            :checked="checked && initialChecked"
+            :checked="checked"
             @click.stop="toggleVisibility(value)"
             @keyup.enter.stop="toggleVisibility(value)"
             :class="[
@@ -55,13 +55,13 @@ export default defineComponent({
 
     data() {
         return {
-            initialChecked: this.legendItem.visibility
+            // initialChecked: this.legendItem.visibility
         };
     },
 
     mounted() {
-        this.legendItem.checkVisibilityRules();
-        this.initialChecked = this.legendItem.visibility === this.checked;
+        // this.legendItem.checkVisibilityRules();
+        // this.initialChecked = this.legendItem.visibility === this.checked;
     },
 
     methods: {
@@ -136,7 +136,7 @@ export default defineComponent({
 
                 this.legendItem.layer?.setSqlFilter(CoreFilter.SYMBOL, sql);
             }
-            this.initialChecked = true;
+            // this.initialChecked = true;
         }
     }
 });

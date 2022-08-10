@@ -167,7 +167,7 @@ import { GlobalEvents, LayerInstance } from '@/api';
 import { LayerControls, LayerState } from '@/geo/api';
 import type { LegendSymbology } from '@/geo/api';
 
-import type { LegendEntry } from '../store/legend-defs';
+import { LegendGroup, type LegendEntry } from '../store/legend-defs';
 import LegendCheckboxV from './checkbox.vue';
 import LegendSymbologyStackV from './symbology-stack.vue';
 import LegendOptionsV from './legend-options.vue';
@@ -186,7 +186,8 @@ export default defineComponent({
     data() {
         return {
             symbologyStack: [] as Array<LegendSymbology>,
-            handlers: [] as Array<string>
+            handlers: [] as Array<string>,
+            watchers: [] as Array<Function>
         };
     },
 
@@ -234,6 +235,14 @@ export default defineComponent({
             )
         );
 
+        // this.watchers.push(
+        //     this.$watch('legendItem.visibility', () => {
+        //         if (this.legendItem.parent instanceof LegendGroup) {
+        //             this.legendItem.parent.checkVisibility(this.legendItem);
+        //         }
+        //     })
+        // );
+
         Promise.all(
             toRaw(this.legendItem!.legend!).map(
                 (item: LegendSymbology) => item.drawPromise
@@ -244,6 +253,7 @@ export default defineComponent({
     },
 
     beforeUnmount() {
+        this.watchers.forEach(unwatch => unwatch());
         this.handlers.forEach(handler => this.$iApi.event.off(handler));
     },
 

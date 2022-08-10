@@ -175,7 +175,7 @@ import { LegendEntry } from '../store/legend-defs';
 export default defineComponent({
     name: 'LegendOptionsV',
     props: {
-        legendItem: LegendEntry
+        legendItem: { type: Object as PropType<LegendEntry>, required: true }
     },
     data() {
         return {
