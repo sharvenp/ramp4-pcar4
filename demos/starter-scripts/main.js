@@ -257,7 +257,7 @@ let config = {
                             'EXT_ESRI_World_AuxMerc_3857#LOD_ESRI_World_AuxMerc_3857'
                     }
                 ],
-                initialBasemapId: 'baseEsriWorld'
+                initialBasemapId: 'baseOpenStreetMap'
             },
             layers: [
                 {
