@@ -6,6 +6,7 @@
 
 // sorted by library path
 import EsriBasemap from '@arcgis/core/Basemap';
+import EsriSceneView from '@arcgis/core/views/SceneView';
 import EsriColour from '@arcgis/core/Color';
 import EsriConfig from '@arcgis/core/config';
 import EsriExtent from '@arcgis/core/geometry/Extent';
@@ -95,5 +96,6 @@ export {
     EsriUniqueValueInfo,
     EsriUniqueValueRenderer,
     EsriWMSLayer,
+    EsriSceneView,
     EsriWMSSublayer
 };

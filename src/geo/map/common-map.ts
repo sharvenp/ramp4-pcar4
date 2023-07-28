@@ -46,7 +46,7 @@ export class CommonMapAPI extends APIScope {
      * The internal esri map view. Avoid referencing outside of geoapi.
      * @private
      */
-    esriView: __esri.MapView | undefined;
+    esriView: __esri.SceneView | undefined;
     protected _viewPromise: DefPromise;
 
     // a promise that resolves when the map view has been created

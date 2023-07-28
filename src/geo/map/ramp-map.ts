@@ -33,7 +33,7 @@ import type {
     ScreenPoint,
     Screenshot
 } from '@/geo/api';
-import { EsriLOD, EsriMapView } from '@/geo/esri';
+import { EsriLOD, EsriMapView, EsriSceneView } from '@/geo/esri';
 import { useLayerStore } from '@/stores/layer';
 import { MapCaptionAPI } from './caption';
 import { markRaw, toRaw } from 'vue';
@@ -163,19 +163,23 @@ export class MapAPI extends CommonMapAPI {
 
         // create esri view with config
         this.esriView = markRaw(
-            new EsriMapView({
+            new EsriSceneView({
                 map: this.esriMap,
                 container: this._targetDiv,
-                constraints: {
-                    lods: <Array<EsriLOD>>lodSetConfig.lods,
-                    rotationEnabled: false
-                },
+                // constraints: {
+                //     lods: <Array<EsriLOD>>lodSetConfig.lods,
+                //     rotationEnabled: false
+                // },
                 spatialReference: this._rampSR.toESRI(),
                 extent: this._rampExtentSet.defaultExtent.toESRI(),
                 navigation: {
                     browserTouchPanEnabled: false
                 },
-                background: { color: bm.backgroundColour }
+                environment: {
+                    background: { type: "color", color: bm.backgroundColour }
+                },
+                scale: 50000000, // Sets the initial scale to 1:50,000,000
+                center: [-101.17, 21.78] // Sets the center point of view with lon/lat
             })
         );
 
@@ -802,29 +806,29 @@ export class MapAPI extends CommonMapAPI {
             return;
         }
 
-        const lods = this.esriView.constraints.lods;
+        // const lods = this.esriView.constraints.lods;
 
-        if (!lods) {
-            // handle case with no tiles / lods
-            return this.zoomMapTo(
-                this.getExtent().center(),
-                offStatus.zoomIn ? scaleSet.minScale : scaleSet.minScale
-            );
-        }
+        // if (!lods) {
+        //     // handle case with no tiles / lods
+        //     return this.zoomMapTo(
+        //         this.getExtent().center(),
+        //         offStatus.zoomIn ? scaleSet.minScale : scaleSet.minScale
+        //     );
+        // }
 
-        // the lods array is ordered largest scale to smallest scale.  e.g. world view to city view
-        // if zoomOut is false, we reverse the array so we search it in the other direction.
-        const modLods = offStatus.zoomIn ? lods : [...lods].reverse();
+        // // the lods array is ordered largest scale to smallest scale.  e.g. world view to city view
+        // // if zoomOut is false, we reverse the array so we search it in the other direction.
+        // const modLods = offStatus.zoomIn ? lods : [...lods].reverse();
 
-        // scan for appropriate LOD that will make scale set visible, or pick last LOD if no boundary was found
-        const scaleLod =
-            modLods.find(currentLod =>
-                offStatus.zoomIn
-                    ? currentLod.scale < scaleSet.minScale
-                    : currentLod.scale > scaleSet.maxScale
-            ) || modLods[modLods.length - 1];
+        // // scan for appropriate LOD that will make scale set visible, or pick last LOD if no boundary was found
+        // const scaleLod =
+        //     modLods.find(currentLod: any =>
+        //         offStatus.zoomIn
+        //             ? currentLod.scale < scaleSet.minScale
+        //             : currentLod.scale > scaleSet.maxScale
+        //     ) || modLods[modLods.length - 1];
 
-        return this.zoomToLevel(scaleLod.level);
+        return this.zoomToLevel(1);
     }
 
     /**
