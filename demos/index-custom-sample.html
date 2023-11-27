@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+        <title>ramp-core</title>
+    </head>
+    <body style="margin: 0">
+        <style>
+            #instance-language {
+                margin-left: 20px;
+            }
+        </style>
+
+        <noscript>
+            <strong
+                >We're sorry but ramp-core doesn't work properly without
+                JavaScript enabled. Please enable it to continue.</strong
+            >
+        </noscript>
+
+        <div id="IE"></div>
+        <div
+            id="app"
+            style="height: 100vh; max-height: -webkit-fill-available"
+        ></div>
+
+        <!-- <script type="module" src="./starter-scripts/custom-sample.js"></script> -->
+        <script type="module">
+            const urlParams = new URLSearchParams(window.location.search);
+            const url = urlParams.get('url');
+            const loadDefaultFixtures = !!urlParams.get('defaultFixtures');
+            const loadDefaultEvents = !!urlParams.get('defaultEvents');
+            const startRequired = !!urlParams.get('startRequired');
+
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(text => {
+                    const blob = new Blob([text], { type: 'application/javascript' });
+                    const blobUrl = URL.createObjectURL(blob);
+                    new Worker(blobUrl, { type: "module" });
+
+                })
+                .catch(e => {
+                    console.log('Error loading sample.', e);
+                });
+        </script>
+    </body>
+</html>
