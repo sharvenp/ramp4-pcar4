@@ -1,0 +1,1 @@
+import{bK as n,e_ as m,w as p}from"./main-7ffb345c.js";import{p as c}from"./queryTopFeatures-286a3a42.js";import"./preload-helper-388ac9d5.js";async function u(o,a,e){const r=n(o),t=await c(r,m.from(a),{...e});return{count:t.data.count,extent:p.fromJSON(t.data.extent)}}export{u as executeForTopExtents};
